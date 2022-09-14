@@ -15,7 +15,7 @@ function App() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Learn React
+          DegenBetz - We help you gamble without becoming broke boi
         </a>
       </header>
     </div>
