@@ -11,8 +11,10 @@ import {
     Text,
     useColorModeValue,
   } from '@chakra-ui/react';
+import { useNavigate } from 'react-router-dom';
   
   export default function SimpleCard() {
+    let navigate = useNavigate()
     return (
       <Flex
         minH={'100vh'}
@@ -42,13 +44,13 @@ import {
                   direction={{ base: 'column', sm: 'row' }}
                   align={'start'}
                   justify={'space-between'}>
-                  <Link color={'blue.400'}>Forgot password?</Link>
+                  <Link color={'green.400'} onClick = {(e)=>{navigate("/register")}}>Not registered? Click here</Link>
                 </Stack>
                 <Button
-                  bg={'blue.400'}
+                  bg={'green.400'}
                   color={'white'}
                   _hover={{
-                    bg: 'blue.500',
+                    bg: 'green.500',
                   }}>
                   Sign in
                 </Button>
