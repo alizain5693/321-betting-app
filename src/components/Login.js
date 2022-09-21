@@ -44,7 +44,7 @@ import { useNavigate } from 'react-router-dom';
                   direction={{ base: 'column', sm: 'row' }}
                   align={'start'}
                   justify={'space-between'}>
-                  <Link color={'green.400'} onClick = {(e)=>{navigate("/register")}}>Not registered? Click here</Link>
+                  <Link color={'green.400'} onClick = {(e)=>{navigate("/register")}}>Create account</Link>
                 </Stack>
                 <Button
                   bg={'green.400'}
