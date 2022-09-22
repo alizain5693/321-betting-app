@@ -47,6 +47,7 @@ import { useNavigate } from 'react-router-dom';
                   <Link color={'green.400'} onClick = {(e)=>{navigate("/register")}}>Create account</Link>
                 </Stack>
                 <Button
+                  onClick={(e) => {navigate("/home")}}
                   bg={'green.400'}
                   color={'white'}
                   _hover={{
