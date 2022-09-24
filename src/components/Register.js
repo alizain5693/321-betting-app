@@ -74,6 +74,7 @@ import { useNavigate } from 'react-router-dom';
               </FormControl>
               <Stack spacing={10} pt={2}>
                 <Button
+                  onClick={(e) => {navigate("/home")}}
                   loadingText="Submitting"
                   size="lg"
                   bg={'green.400'}
