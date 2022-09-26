@@ -10,6 +10,11 @@
       "StackName": "amplify-degenbetz-dev-232336",
       "StackId": "arn:aws:cloudformation:us-east-1:615177527875:stack/amplify-degenbetz-dev-232336/48d67970-3bb8-11ed-b8b8-12730e200e31",
       "AmplifyAppId": "d1n4iftiiqn0xz"
+    },
+    "categories": {
+      "auth": {
+        "degenbetza5d1f09b": {}
+      }
     }
   }
 }

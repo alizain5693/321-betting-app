@@ -16,11 +16,59 @@ import {
   } from '@chakra-ui/react';
   import { useState } from 'react';
   import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
-import { useNavigate } from 'react-router-dom';
+  import { useNavigate } from 'react-router-dom';
+  import React from 'react';
+  import { Auth } from 'aws-amplify'
   
+
+
   export default function SignupCard() {
+    //declarations
     const [showPassword, setShowPassword] = useState(false);
     let navigate = useNavigate()
+
+    //vars to store
+    let email = "";
+    let password = "";
+    let name = "";
+    let username = "";
+
+    //using references to grab the form data
+    
+    const emailRef = React.useRef();
+    const passwordRef = React.useRef();
+    const firstNameRef = React.useRef();
+    const lastNameRef = React.useRef();
+
+    async function signUp() {
+      try {
+        const { user } = await Auth.signUp({
+            username,
+            password,
+            attributes: {
+              email,
+              name
+            },
+            autoSignIn: { // optional - enables auto sign in after user is confirmed
+                enabled: false,
+            }
+        });
+        console.log(user);
+        navigate("/login");
+    } catch (error) {
+        console.log('error signing up:', error);
+    }
+    }
+  
+    const handleSubmit = () => {
+      email = emailRef.current.value;
+      password = passwordRef.current.value;
+      name = firstNameRef.current.value +" "+ lastNameRef.current.value;
+      username = email;
+      signUp();
+
+    };
+
     return (
       <Flex
         minH={'100vh'}
@@ -43,24 +91,24 @@ import { useNavigate } from 'react-router-dom';
                 <Box>
                   <FormControl id="firstName" isRequired>
                     <FormLabel>First Name</FormLabel>
-                    <Input type="text" />
+                    <Input type="text" ref={firstNameRef}/>
                   </FormControl>
                 </Box>
                 <Box>
-                  <FormControl id="lastName">
+                  <FormControl id="lastName" isRequired>
                     <FormLabel>Last Name</FormLabel>
-                    <Input type="text" />
+                    <Input type="text" ref={lastNameRef}/>
                   </FormControl>
                 </Box>
               </HStack>
               <FormControl id="email" isRequired>
                 <FormLabel>Email address</FormLabel>
-                <Input type="email" />
+                <Input type="email" ref={emailRef}/>
               </FormControl>
               <FormControl id="password" isRequired>
                 <FormLabel>Password</FormLabel>
                 <InputGroup>
-                  <Input type={showPassword ? 'text' : 'password'} />
+                  <Input type={showPassword ? 'text' : 'password'} ref={passwordRef}/>
                   <InputRightElement h={'full'}>
                     <Button
                       variant={'ghost'}
@@ -74,7 +122,7 @@ import { useNavigate } from 'react-router-dom';
               </FormControl>
               <Stack spacing={10} pt={2}>
                 <Button
-                  onClick={(e) => {navigate("/home")}}
+                  onClick={handleSubmit}
                   loadingText="Submitting"
                   size="lg"
                   bg={'green.400'}
