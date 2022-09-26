@@ -12,8 +12,41 @@ import {
     useColorModeValue,
   } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
+import React from 'react';
+import { Auth } from 'aws-amplify'
+
+
   
   export default function SimpleCard() {
+    //HANDLE SUBMISSIONS AND SIGNINS
+    //vars to store
+    let username = "";
+    let password = "";
+
+    //using references to grab the form data
+    
+    const usernameRef = React.useRef();
+    const passwordRef = React.useRef();
+
+    async function signIn() {
+      try {
+        const user = await Auth.signIn(username, password);
+        console.log(user);
+        navigate("/home");
+    } catch (error) {
+        console.log('error logging in:', error);
+    }
+    }
+  
+    const handleSubmit = () => {
+      username = usernameRef.current.value;
+      password = passwordRef.current.value;
+      signIn();
+
+    };
+
+
+
     let navigate = useNavigate()
     return (
       <Flex
@@ -31,13 +64,13 @@ import { useNavigate } from 'react-router-dom';
             boxShadow={'lg'}
             p={8}>
             <Stack spacing={4}>
-              <FormControl id="email">
+              <FormControl id="email" isRequired>
                 <FormLabel>Email address</FormLabel>
-                <Input type="email" />
+                <Input type="email" ref={usernameRef}/>
               </FormControl>
-              <FormControl id="password">
+              <FormControl id="password" isRequired>
                 <FormLabel>Password</FormLabel>
-                <Input type="password" />
+                <Input type="password" ref={passwordRef}/>
               </FormControl>
               <Stack spacing={10}>
                 <Stack
@@ -47,7 +80,7 @@ import { useNavigate } from 'react-router-dom';
                   <Link color={'green.400'} onClick = {(e)=>{navigate("/register")}}>Create account</Link>
                 </Stack>
                 <Button
-                  onClick={(e) => {navigate("/home")}}
+                  onClick={handleSubmit}
                   bg={'green.400'}
                   color={'white'}
                   _hover={{
