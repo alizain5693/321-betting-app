@@ -13,6 +13,10 @@ import {
     Text,
     useColorModeValue,
     Link,
+    Alert,
+    AlertIcon,
+    AlertTitle,
+    AlertDescription,
   } from '@chakra-ui/react';
   import { useState } from 'react';
   import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
@@ -55,8 +59,22 @@ import {
         });
         console.log(user);
         navigate("/login");
+        return (
+          <Alert status="success">
+            <AlertIcon />
+            <AlertTitle mr={2}>Success!</AlertTitle>
+            <AlertDescription>Account created successfully!</AlertDescription>
+          </Alert>
+        )
     } catch (error) {
         console.log('error signing up:', error);
+        return (
+          <Alert status="error">
+            <AlertIcon />
+            <AlertTitle mr={2}>Error!</AlertTitle>
+            <AlertDescription>Account creation failed!: {error}</AlertDescription>
+          </Alert>
+        )
     }
     }
   
@@ -142,5 +160,6 @@ import {
           </Box>
         </Stack>
       </Flex>
-    );
+    )
+
   }

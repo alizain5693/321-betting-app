@@ -31,6 +31,12 @@ import { Auth } from 'aws-amplify'
     async function signIn() {
       try {
         const user = await Auth.signIn(username, password);
+        // let jwks = await fetch('https://cognito-idp.us-east-1.amazonaws.com/us-east-1_aaZ2o3X55/.well-known/jwks.json');
+        let jwks = require('../JWKS.json');
+        localStorage.setItem('DegenBetz_ID_TOKEN', user.signInUserSession.idToken.jwtToken);
+        localStorage.setItem('DegenBetz_REFRESH_TOKEN', user.signInUserSession.refreshToken.jwtToken);
+        localStorage.setItem('DegenBetz_ACCESS_TOKEN', user.signInUserSession.accessToken.jwtToken);
+        localStorage.setItem('DegenBetz_JWKS', jwks);
         console.log(user);
         navigate("/home");
     } catch (error) {
