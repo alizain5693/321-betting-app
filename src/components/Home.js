@@ -98,6 +98,10 @@ const Home = () => {
     let navigate = useNavigate()
 async function signOut() {
     try {
+        localStorage.removeItem('DegenBetz_JWKS');
+        localStorage.removeItem('DegenBetz_ID_TOKEN');
+        localStorage.removeItem('DegenBetz_ACCESS_TOKEN');
+        localStorage.removeItem('DegenBetz_REFRESH_TOKEN');
         await Auth.signOut();
         navigate("/login");
     } catch (error) {
@@ -119,6 +123,21 @@ if(isVerified == true){
         </>
     )
 }
+else{
+    return (
+        <>
+        <section className = "hero">
+            <nav>
+                <div>
+                    <h2>YOU NEED TO LOGIN MY FRIEND...</h2>
+                    <Button onClick = {navigate("/login")}>Go to Login</Button>
+                </div>
+            </nav>
+        </section>
+        </>
+    )
+}
+
 }
 
 export default Home
