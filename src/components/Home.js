@@ -20,30 +20,82 @@ import {
 
   import { Auth } from 'aws-amplify';
   import jwt_decode from "jwt-decode";
+  import { CognitoJwtVerifier } from "aws-jwt-verify";
 import { log } from 'util';
 
-const Home = () => {
-    let navigate = useNavigate()
-    //load the tokens from local storage and decode them
-    let jwks = localStorage.getItem('DegenBetz_JWKS');
-    let jwtID = localStorage.getItem('DegenBetz_ID_TOKEN');
-    let jwtDecoded = jwt_decode(jwtID);
-    //get header and payload
-    let header = jwtDecoded.header;
-    let payload = jwtDecoded.payload;
-    console.log(header);
-    console.log(jwtDecoded);
-    console.log(jwks);
-    // //search the jwks for the key that matches the kid in the jwt
-    // let key = jwks.keys.find(key => key.kid === jwtDecoded.header.kid);
-    // //convert the key to a pem
-    // var jwt = require('jsonwebtoken');
-    // var jwkToPem = require('jwk-to-pem');
-    // let pem = jwkToPem(key);
-    // //verify the jwt
-    // let verified = jwt.verify(jwtID, pem);
-    // console.log(verified);
+//is user verified
+let isVerified;
+//Async function for user verification through jwt and cognito
+async function VerifyUser() {
 
+    try {
+        let jwks = localStorage.getItem('DegenBetz_JWKS');
+        let jwtID = localStorage.getItem('DegenBetz_ID_TOKEN');
+        let jwtAccess = localStorage.getItem('DegenBetz_ACCESS_TOKEN');
+        let jwtAccessDecoded = jwt_decode(jwtAccess);
+        let jwtDecoded = jwt_decode(jwtID);
+        let jwtDecodedHeader = jwt_decode(jwtID, {header: true});
+        console.log("jwtDecodedHeader\n" + jwtDecodedHeader);
+        console.log("jwtDecoded\n" + jwtDecoded);
+        console.log("jwks\n" + jwks);
+
+        //get local key id 
+        let localKid = jwtDecodedHeader.kid;
+        //search jwks for the localKid
+        let jwksParsed = JSON.parse(jwks);
+        let jwksKeys = jwksParsed.keys;
+        let matchingKey = jwksKeys.find(key => key.kid === localKid);
+        console.log("matchingKey\n" + matchingKey);
+
+        //get aud
+        let aud = jwtDecoded.aud;
+        console.log("aud\n" + aud);
+        
+        // Verifier that expects valid access tokens:
+        const verifier = CognitoJwtVerifier.create({
+            userPoolId: "us-east-1_aaZ2o3X55",
+            tokenUse: "access",
+            clientId: jwtAccessDecoded.client_id,
+        });
+        //verify the token
+        const payload = await verifier.verify(jwtAccess);
+        //stringify the payload
+        let payloadString = JSON.stringify(payload);
+        console.log("IT IS VERIFIED -- payload\n" + payloadString);        
+
+        //check that the token is not expired
+        if(payload.exp > Date.now() / 1000){
+            console.log("token is not expired");
+                //Make sure aud in id token matches client id in access token
+                if(aud == jwtAccessDecoded.client_id){
+                console.log("aud matches client id");
+                    //check that the iss matches the user pool
+                    if(payload.iss == "https://cognito-idp.us-east-1.amazonaws.com/us-east-1_aaZ2o3X55"){
+                        //check that claim is either id or access
+                        if(payload.token_use == "id" || payload.token_use == "access"){
+                            console.log("token is valid ID or Access token");
+                            return true;
+                        }
+                }
+            }
+        
+        
+        
+    } 
+}catch (error) {
+        console.log("error\n" + error);
+        return false;
+    }
+
+}
+
+
+
+
+const Home = () => {
+    //store verifyUser in a variable
+    isVerified = VerifyUser();
+    let navigate = useNavigate()
 async function signOut() {
     try {
         await Auth.signOut();
@@ -53,6 +105,7 @@ async function signOut() {
     }
 }
 
+if(isVerified == true){
     return (
         <>
         <section className = "hero">
@@ -65,6 +118,7 @@ async function signOut() {
         </section>
         </>
     )
+}
 }
 
 export default Home
