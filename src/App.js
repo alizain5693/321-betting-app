@@ -1,24 +1,33 @@
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter as Router, Routes, Route, useNavigate} from "react-router-dom";
+import { ChakraProvider } from '@chakra-ui/react'
+import { useEffect } from "react"
+import Login from "./components/Login"
+import Hero from "./components/Hero"
+import Register from "./components/Register"
+import Home from "./components/Home"
+// Import Amplify libraries
+import { Amplify, Auth } from 'aws-amplify';
+import awsconfig from './aws-exports';
+Amplify.configure(awsconfig);
 
 function App() {
+
+  
+
+  
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ChakraProvider>
+      <Router>
+        <Routes>
+          <Route path = "/" element = {<Hero/>}></Route>
+          <Route path = "/login" element = {<Login/>}></Route>
+          <Route path = "/register" element = {<Register/>}></Route>
+          <Route path = "/home" element = {<Home/>}></Route>
+          <Route path = "/dashboard/" element = {<Home/>}></Route>
+        </Routes>
+      </Router>
+    </ChakraProvider>
   );
 }
 
