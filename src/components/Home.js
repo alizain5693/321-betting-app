@@ -23,8 +23,15 @@ import {
   import { CognitoJwtVerifier } from "aws-jwt-verify";
 import { log } from 'util';
 
+
+
+
+
+
+const Home = () => {
 //is user verified
-let isVerified;
+const [isVerified, setIsVerified] = useState(false);
+let navigate = useNavigate();
 //Async function for user verification through jwt and cognito
 async function VerifyUser() {
 
@@ -74,7 +81,8 @@ async function VerifyUser() {
                         //check that claim is either id or access
                         if(payload.token_use == "id" || payload.token_use == "access"){
                             console.log("token is valid ID or Access token");
-                            return true;
+                            // return true;
+                            setIsVerified(true);
                         }
                 }
             }
@@ -84,18 +92,16 @@ async function VerifyUser() {
     } 
 }catch (error) {
         console.log("error\n" + error);
-        return false;
+        // return false;
+        setIsVerified(false);
+        // navigate("/login");
     }
 
 }
-
-
-
-
-const Home = () => {
     //store verifyUser in a variable
-    isVerified = VerifyUser();
-    let navigate = useNavigate()
+    // isVerified = VerifyUser();
+    // VerifyUser();
+   
 async function signOut() {
     try {
         localStorage.removeItem('DegenBetz_JWKS');
@@ -109,10 +115,42 @@ async function signOut() {
     }
 }
 
-if(isVerified == true){
-    return (
+// if(isVerified == true){
+//     return (
+//         <>
+//         <section className = "hero">
+//             <nav>
+//                 <div>
+//                     <h2>Welcome</h2>
+//                     <Button onClick = {(e)=>{signOut()}}>Logout</Button>
+//                 </div>
+//             </nav>
+//         </section>
+//         </>
+//     )
+// }
+// else{
+//     navigate("/login");
+//     return (
+//         <>
+//         <section className = "hero">
+//             <nav>
+//                 <div>
+//                     <h2>YOU NEED TO LOGIN MY FRIEND...</h2>
+//                     <Button onClick = {(e)=>navigate("/login")}>Go to Login</Button>
+//                 </div>
+//             </nav>
+//         </section>
+//         </>
+//     )
+// }
+
+
+    return(
         <>
-        <section className = "hero">
+        { isVerified === true ? (
+            <>
+            <section className = "hero">
             <nav>
                 <div>
                     <h2>Welcome</h2>
@@ -120,23 +158,22 @@ if(isVerified == true){
                 </div>
             </nav>
         </section>
-        </>
-    )
-}
-else{
-    return (
-        <>
-        <section className = "hero">
+          </>
+        ) : (
+            <>
+                <section className = "hero">
             <nav>
                 <div>
                     <h2>YOU NEED TO LOGIN MY FRIEND...</h2>
-                    <Button onClick = {navigate("/login")}>Go to Login</Button>
+                    <Button onClick = {(e)=>navigate("/login")}>Go to Login</Button>
                 </div>
             </nav>
         </section>
+                  </>
+        )}
         </>
     )
-}
+
 
 }
 

@@ -10,9 +10,14 @@ import {
     Heading,
     Text,
     useColorModeValue,
+    Alert,
+    AlertIcon,
+    AlertTitle,
+    AlertDescription,
   } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
 import React from 'react';
+import{ useState } from 'react';
 import { Auth } from 'aws-amplify'
 
 
@@ -22,6 +27,7 @@ import { Auth } from 'aws-amplify'
     //vars to store
     let username = "";
     let password = "";
+    const [loginSuccess, setLoginSuccess] = useState(true);
 
     //using references to grab the form data
     
@@ -39,9 +45,11 @@ import { Auth } from 'aws-amplify'
         localStorage.setItem('DegenBetz_ACCESS_TOKEN', user.signInUserSession.accessToken.jwtToken);
         localStorage.setItem('DegenBetz_JWKS', jwks);
         console.log(user);
+        setLoginSuccess(true);
         navigate("/home");
     } catch (error) {
         console.log('error logging in:', error);
+        setLoginSuccess(false);
     }
     }
   
@@ -49,7 +57,6 @@ import { Auth } from 'aws-amplify'
       username = usernameRef.current.value;
       password = passwordRef.current.value;
       signIn();
-
     };
 
 
@@ -95,6 +102,18 @@ import { Auth } from 'aws-amplify'
                   }}>
                   Sign in
                 </Button>
+                { loginSuccess === false ? (
+                  <>
+                  <Alert status='error'>
+  <AlertIcon />
+  <AlertTitle>Unable to Login!</AlertTitle>
+  <AlertDescription>Please check your username and password is correct!</AlertDescription>
+</Alert>
+                  </>
+                ) : (
+                  <>
+                  </>
+                )}
               </Stack>
             </Stack>
           </Box>
