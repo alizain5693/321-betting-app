@@ -10,10 +10,57 @@ import {
     Heading,
     Text,
     useColorModeValue,
+    Alert,
+    AlertIcon,
+    AlertTitle,
+    AlertDescription,
   } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
+import React from 'react';
+import{ useState } from 'react';
+import { Auth } from 'aws-amplify'
+
+
   
   export default function SimpleCard() {
+    //HANDLE SUBMISSIONS AND SIGNINS
+    //vars to store
+    let username = "";
+    let password = "";
+    const [loginSuccess, setLoginSuccess] = useState(true);
+
+    //using references to grab the form data
+    
+    const usernameRef = React.useRef();
+    const passwordRef = React.useRef();
+
+    async function signIn() {
+      try {
+        const user = await Auth.signIn(username, password);
+        // let jwks = await fetch('https://cognito-idp.us-east-1.amazonaws.com/us-east-1_aaZ2o3X55/.well-known/jwks.json');
+        let jwks = require('../JWKS.json');
+        jwks = JSON.stringify(jwks);
+        localStorage.setItem('DegenBetz_ID_TOKEN', user.signInUserSession.idToken.jwtToken);
+        localStorage.setItem('DegenBetz_REFRESH_TOKEN', user.signInUserSession.refreshToken.jwtToken);
+        localStorage.setItem('DegenBetz_ACCESS_TOKEN', user.signInUserSession.accessToken.jwtToken);
+        localStorage.setItem('DegenBetz_JWKS', jwks);
+        console.log(user);
+        setLoginSuccess(true);
+        navigate("/home");
+    } catch (error) {
+        console.log('error logging in:', error);
+        setLoginSuccess(false);
+    }
+    }
+  
+    const handleSubmit = () => {
+      username = usernameRef.current.value;
+      password = passwordRef.current.value;
+      signIn();
+    };
+
+
+
     let navigate = useNavigate()
     return (
       <Flex
@@ -31,13 +78,13 @@ import { useNavigate } from 'react-router-dom';
             boxShadow={'lg'}
             p={8}>
             <Stack spacing={4}>
-              <FormControl id="email">
+              <FormControl id="email" isRequired>
                 <FormLabel>Email address</FormLabel>
-                <Input type="email" />
+                <Input type="email" ref={usernameRef}/>
               </FormControl>
-              <FormControl id="password">
+              <FormControl id="password" isRequired>
                 <FormLabel>Password</FormLabel>
-                <Input type="password" />
+                <Input type="password" ref={passwordRef}/>
               </FormControl>
               <Stack spacing={10}>
                 <Stack
@@ -47,7 +94,7 @@ import { useNavigate } from 'react-router-dom';
                   <Link color={'green.400'} onClick = {(e)=>{navigate("/register")}}>Create account</Link>
                 </Stack>
                 <Button
-                  onClick={(e) => {navigate("/home")}}
+                  onClick={handleSubmit}
                   bg={'green.400'}
                   color={'white'}
                   _hover={{
@@ -55,6 +102,18 @@ import { useNavigate } from 'react-router-dom';
                   }}>
                   Sign in
                 </Button>
+                { loginSuccess === false ? (
+                  <>
+                  <Alert status='error'>
+  <AlertIcon />
+  <AlertTitle>Unable to Login!</AlertTitle>
+  <AlertDescription>Please check your username and password is correct!</AlertDescription>
+</Alert>
+                  </>
+                ) : (
+                  <>
+                  </>
+                )}
               </Stack>
             </Stack>
           </Box>

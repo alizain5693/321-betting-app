@@ -1,4 +1,4 @@
-import Head from 'next/head';
+// import Head from 'next/head';
 import {
   Box,
   Heading,
@@ -16,12 +16,12 @@ export default function CallToActionWithAnnotation() {
     let navigate = useNavigate()
   return (
     <>
-      <Head>
+      <head>
         <link
           href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&display=swap"
           rel="stylesheet"
         />
-      </Head>
+      </head>
 
       <Container maxW={'3xl'}>
         <Stack
