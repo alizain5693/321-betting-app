@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import "./Home.css"
-import "./scoreboard.css"
+// import "./scoreboard.css"
 import {
     Flex,
     Box,
@@ -23,7 +23,8 @@ import {
   import jwt_decode from "jwt-decode";
   import { CognitoJwtVerifier } from "aws-jwt-verify";
 import { log } from 'util';
-
+  //import team component
+    import Game from './Game';
 
 
 
@@ -180,18 +181,26 @@ async function signOut() {
                     
                 </div>
             </nav>
-            <div className='scoreboard'>
+            <div >
             {
                 schedule.map((game)=>(
                     <>
-                        <div className='game'>
-                            <h1 className='title'>{game.homeTeam.teamCity} {game.homeTeam.teamName} vs {game.awayTeam.teamCity} {game.awayTeam.teamName}</h1>
-                            <h2 className='score'>test test</h2>
-                        </div>
+\        <div>
+        <Game teamName1 = {game.homeTeam.teamName} teamCity1 = {game.homeTeam.teamCity} team1score = {game.homeTeam.score} teamName2 = {game.awayTeam.teamName} teamCity2 = {game.awayTeam.teamCity} team2score = {game.awayTeam.score}/>
+
+        </div>
                     </>
                 ))
             }
             </div>
+        {/* call team component */}
+        {/* </section>
+        <section className='team'>
+        <div className='team'>
+        <Game teamName1 = "Boston-Celtics" teamCity1 = "Boston" team1score = "5" teamName2 = "Brooklyn-Nets" teamCity2 = "Brooklyn" team2score = "9"/>
+
+        </div>
+        </section> */}
         </section>
           </>
         ) : (
