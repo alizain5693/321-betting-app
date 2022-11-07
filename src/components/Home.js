@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import "./Home.css"
+import "./scoreboard.css"
 import {
     Flex,
     Box,
@@ -147,7 +148,8 @@ async function signOut() {
 // }
     useEffect (() => {
         fetchData()
-    })
+        console.log(schedule)
+    },[])
 
     const fetchData = async () => {
         //get req this url using axios
@@ -156,8 +158,7 @@ async function signOut() {
         const url = 'https://x2xgysiaba64ej7uwyejehjtoq0gpzjz.lambda-url.us-east-1.on.aws/';
         axios.get(url)
             .then(function (response) {
-                console.log(response.data);
-                setSchedule(response.data.JSON)
+                setSchedule(response.data.scoreboard.games)
             }
             )
             .catch(function (error) {
@@ -170,21 +171,26 @@ async function signOut() {
     return(
         <>
         { isVerified === true ? (
-            <>
+        <>
         <section className = "hero">
             <nav>
                 <div>
                     <h2>Welcome</h2>
                     <Button onClick = {(e)=>{signOut()}}>Logout</Button>
+                    
                 </div>
             </nav>
-            <div>
-                <h1>Today's games</h1>
-                {
-                    schedule.scoreboard.games.map((game) => {
-                        
-                    }) 
-                }
+            <div className='scoreboard'>
+            {
+                schedule.map((game)=>(
+                    <>
+                        <div className='game'>
+                            <h1 className='title'>{game.homeTeam.teamCity} {game.homeTeam.teamName} vs {game.awayTeam.teamCity} {game.awayTeam.teamName}</h1>
+                            <h2 className='score'>test test</h2>
+                        </div>
+                    </>
+                ))
+            }
             </div>
         </section>
           </>

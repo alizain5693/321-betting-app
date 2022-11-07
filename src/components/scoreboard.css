@@ -1,0 +1,24 @@
+* {
+    color: rgb(14, 164, 47);
+}
+
+div .scoreboard {
+    align-items: center;
+    display: flex;
+    justify-content: left;
+    flex-wrap: wrap;
+    
+}
+
+
+.game {
+    text-align: center;
+    width: 300px;
+    border: 15px solid rgb(7, 201, 101);
+    padding: 50px;
+    margin: 20px;
+}
+
+.title {
+    font-size: 20px;
+}
