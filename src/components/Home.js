@@ -186,7 +186,12 @@ async function signOut() {
                     <>
                         <div className='game'>
                             <h1 className='title'>{game.homeTeam.teamCity} {game.homeTeam.teamName} vs {game.awayTeam.teamCity} {game.awayTeam.teamName}</h1>
-                            <h2 className='score'>test test</h2>
+                            <h2 className='record'>{game.homeTeam.teamTricode}: {game.homeTeam.wins}-{game.homeTeam.losses}  {game.awayTeam.teamTricode}: {game.awayTeam.wins}-{game.awayTeam.losses}</h2>
+                            <div className='score'>
+                            <h1>Score:</h1>
+                            <h1>{game.homeTeam.score}-{game.awayTeam.score}</h1>
+                            <Button>View Game</Button>
+                            </div>
                         </div>
                     </>
                 ))

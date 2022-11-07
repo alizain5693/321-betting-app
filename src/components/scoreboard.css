@@ -13,10 +13,18 @@ div .scoreboard {
 
 .game {
     text-align: center;
-    width: 300px;
-    border: 15px solid rgb(7, 201, 101);
-    padding: 50px;
-    margin: 20px;
+    width: 500px;
+    border: 10px solid rgb(7, 201, 101);
+    padding: 40px;
+    margin: 10px;
+}
+
+.record {
+    
+}
+
+.score {
+    font-size: 30px;
 }
 
 .title {
