@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import "./Home.css"
 import {
@@ -31,6 +31,7 @@ import { log } from 'util';
 const Home = () => {
 //is user verified
 const [isVerified, setIsVerified] = useState(false);
+const [schedule,setSchedule] = useState([])
 let navigate = useNavigate();
 //Async function for user verification through jwt and cognito
 async function VerifyUser() {
@@ -144,19 +145,47 @@ async function signOut() {
 //         </>
 //     )
 // }
+    useEffect (() => {
+        fetchData()
+    })
 
+    const fetchData = async () => {
+        //get req this url using axios
+        //url: https://x2xgysiaba64ej7uwyejehjtoq0gpzjz.lambda-url.us-east-1.on.aws/
+        const axios = require('axios');
+        const url = 'https://x2xgysiaba64ej7uwyejehjtoq0gpzjz.lambda-url.us-east-1.on.aws/';
+        axios.get(url)
+            .then(function (response) {
+                console.log(response.data);
+                setSchedule(response.data.JSON)
+            }
+            )
+            .catch(function (error) {
+                console.log(error);
+            }
+            );
+            
+    };
 
     return(
         <>
         { isVerified === true ? (
             <>
-            <section className = "hero">
+        <section className = "hero">
             <nav>
                 <div>
                     <h2>Welcome</h2>
                     <Button onClick = {(e)=>{signOut()}}>Logout</Button>
                 </div>
             </nav>
+            <div>
+                <h1>Today's games</h1>
+                {
+                    schedule.scoreboard.games.map((game) => {
+                        
+                    }) 
+                }
+            </div>
         </section>
           </>
         ) : (
