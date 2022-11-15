@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import "./Home.css"
-import data from "./test.json"
+import data from "./fin.json"
 // import "./scoreboard.css"
 import {
     Flex,
