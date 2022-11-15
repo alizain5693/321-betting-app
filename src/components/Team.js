@@ -23,7 +23,8 @@ import {
 
 export default function Team(props){
     //make url
-    const url = "https://nba-team-logos.s3.amazonaws.com/" + props.teamName + ".svg";
+    let url = "https://nba-team-logos.s3.amazonaws.com/" + props.teamName + ".svg";
+    url = url.toLowerCase();
     return (
         <>
         {/* <Flex
@@ -120,6 +121,8 @@ export default function Team(props){
         }}
       >
         {props.teamCity}
+        <br></br>
+        {props.team.wins}-{props.team.losses}
       </span>
     </Box>
   </Box>

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import "./Home.css"
+import data from "./test.json"
 // import "./scoreboard.css"
 import {
     Flex,
@@ -169,6 +170,12 @@ async function signOut() {
             
     };
 
+    const testData = async () => {
+        setSchedule(data.scoreboard.games)
+        console.log(schedule)
+        
+    }
+
     return(
         <>
         { isVerified === true ? (
@@ -185,36 +192,36 @@ async function signOut() {
             {
                 schedule.map((game)=>(
                     <>
-\        <div>
-        <Game teamName1 = {game.homeTeam.teamName} teamCity1 = {game.homeTeam.teamCity} team1score = {game.homeTeam.score} teamName2 = {game.awayTeam.teamName} teamCity2 = {game.awayTeam.teamCity} team2score = {game.awayTeam.score}/>
+            <div>
+            <Game currgame = {game} time = {game.gameStatusText} team1 = {game.homeTeam} team2 = {game.awayTeam} teamName1 = {game.homeTeam.teamName} teamCity1 = {game.homeTeam.teamCity} team1score = {game.homeTeam.score} teamName2 = {game.awayTeam.teamName} teamCity2 = {game.awayTeam.teamCity} team2score = {game.awayTeam.score}/>
 
-        </div>
-                    </>
-                ))
-            }
             </div>
-        {/* call team component */}
-        {/* </section>
-        <section className='team'>
-        <div className='team'>
-        <Game teamName1 = "Boston-Celtics" teamCity1 = "Boston" team1score = "5" teamName2 = "Brooklyn-Nets" teamCity2 = "Brooklyn" team2score = "9"/>
-
-        </div>
-        </section> */}
-        </section>
-          </>
-        ) : (
-            <>
-                <section className = "hero">
-            <nav>
-                <div>
-                    <h2>YOU NEED TO LOGIN MY FRIEND...</h2>
-                    <Button onClick = {(e)=>navigate("/login")}>Go to Login</Button>
+                        </>
+                    ))
+                }
                 </div>
-            </nav>
-        </section>
-                  </>
-        )}
+            {/* call team component */}
+            {/* </section>
+            <section className='team'>
+            <div className='team'>
+            <Game teamName1 = "Boston-Celtics" teamCity1 = "Boston" team1score = "5" teamName2 = "Brooklyn-Nets" teamCity2 = "Brooklyn" team2score = "9"/>
+
+            </div>
+            </section> */}
+            </section>
+            </>
+            ) : (
+                <>
+                    <section className = "hero">
+                <nav>
+                    <div>
+                        <h2>Loading...</h2>
+                        <Button onClick = {(e)=>navigate("/login")}>Go to Login</Button>
+                    </div>
+                </nav>
+            </section>
+                    </>
+            )}
         </>
     )
 

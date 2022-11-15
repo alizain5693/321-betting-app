@@ -5,6 +5,7 @@ import Login from "./components/Login"
 import Hero from "./components/Hero"
 import Register from "./components/Register"
 import Home from "./components/Home"
+import GameStats from "./components/GameStats";
 // Import Amplify libraries
 import { Amplify, Auth } from 'aws-amplify';
 import awsconfig from './aws-exports';
@@ -25,6 +26,7 @@ function App() {
           <Route path = "/register" element = {<Register/>}></Route>
           <Route path = "/home" element = {<Home/>}></Route>
           <Route path = "/dashboard/" element = {<Home/>}></Route>
+          <Route path = "/gamestats" element = {<GameStats/>}></Route>
         </Routes>
       </Router>
     </ChakraProvider>
