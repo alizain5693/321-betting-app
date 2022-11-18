@@ -1,0 +1,14 @@
+import requests
+import json
+from nba_api.stats.static import teams
+from nba_api.stats.static import players
+from nba_api.live.nba.endpoints import scoreboard
+# from nba_api.stats.endpoints import commonteamroster
+
+
+
+def lambda_handler(event, context):
+    nba_players = players.get_active_players()
+    nba_teams = teams.get_teams()
+    games = scoreboard.ScoreBoard().get_json()
+    return games
