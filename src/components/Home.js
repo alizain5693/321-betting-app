@@ -185,7 +185,12 @@ async function signOut() {
                 <div>
                     <h2>Welcome</h2>
                     <Button onClick = {(e)=>{signOut()}}>Logout</Button>
-                    
+                </div>
+                <div className = "leaders">
+                <Button>Scoreboard</Button>
+                <Button>Point Leaders</Button>
+                <Button>Assist Leaders</Button>
+                <Button>Rebound Leaders</Button>
                 </div>
             </nav>
             <div >
