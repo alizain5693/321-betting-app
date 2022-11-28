@@ -12,11 +12,6 @@ import awsconfig from './aws-exports';
 Amplify.configure(awsconfig);
 
 function App() {
-
-  
-
-  
-
   return (
     <ChakraProvider>
       <Router>
