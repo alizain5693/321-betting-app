@@ -122,26 +122,13 @@ import Team from "./Team"
             <br></br>
             <div class="row align-items-center">
                 <div class="col">
-                <Heading as="h4" size="md" align="center">{location.state.game.gameLeaders.homeLeaders.name}</Heading>
+                <Heading as="h4" size="md" align="center">{location.state.game.gameLeaders.homeLeaders.name} #{location.state.game.gameLeaders.homeLeaders.jerseyNum}</Heading>
                 </div>
                 <div class="col">
                 <Heading as="h4" size="md" align="center">Name</Heading>
                 </div>
                 <div class="col">
-                <Heading as="h4" size="md" align="center">{location.state.game.gameLeaders.awayLeaders.name}</Heading>
-                </div>
-            </div>
-            <br></br>
-            <br></br>
-            <div class="row align-items-center">
-                <div class="col">
-                <Heading as="h4" size="md" align="center">{location.state.game.gameLeaders.homeLeaders.jerseyNum}</Heading>
-                </div>
-                <div class="col">
-                <Heading as="h4" size="md" align="center">Jersey Number</Heading>
-                </div>
-                <div class="col">
-                <Heading as="h4" size="md" align="center">{location.state.game.gameLeaders.awayLeaders.jerseyNum}</Heading>
+                <Heading as="h4" size="md" align="center">{location.state.game.gameLeaders.awayLeaders.name} #{location.state.game.gameLeaders.awayLeaders.jerseyNum}</Heading>
                 </div>
             </div>
             <br></br>
@@ -196,6 +183,8 @@ import Team from "./Team"
                 <Heading as="h4" size="md" align="center">{location.state.game.gameLeaders.awayLeaders.assists}</Heading>
                 </div>
             </div>
+            <br></br>
+            <br></br>
             </div>
 
 
