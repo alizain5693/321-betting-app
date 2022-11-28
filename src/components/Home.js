@@ -23,7 +23,7 @@ import {
   import { Auth } from 'aws-amplify';
   import jwt_decode from "jwt-decode";
   import { CognitoJwtVerifier } from "aws-jwt-verify";
-import { log } from 'util';
+    import { log } from 'util';
   //import team component
     import Game from './Game';
 
@@ -187,10 +187,10 @@ async function signOut() {
                     <Button onClick = {(e)=>{signOut()}}>Logout</Button>
                 </div>
                 <div className = "leaders">
-                <Button>Scoreboard</Button>
-                <Button>Point Leaders</Button>
-                <Button>Assist Leaders</Button>
-                <Button>Rebound Leaders</Button>
+                <Button onClick = {(e)=>{navigate('/home')}}>Scoreboard</Button>
+                <Button onClick = {(e)=>{navigate('/point')}}>Point Leaders</Button>
+                <Button onClick = {(e)=>{navigate('/assist')}}>Assist Leaders</Button>
+                <Button onClick = {(e)=>{navigate('/rebound')}}>Rebound Leaders</Button>
                 </div>
             </nav>
             <div >
