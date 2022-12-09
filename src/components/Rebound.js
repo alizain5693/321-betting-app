@@ -19,7 +19,9 @@ import {
   } from '@chakra-ui/react';
   import { Auth } from 'aws-amplify';
 const Rebound = () => {
+    const [leaders,setLeaders] = useState([])
     let navigate = useNavigate()
+
     async function signOut() {
         try {
             localStorage.removeItem('DegenBetz_JWKS');
@@ -32,12 +34,39 @@ const Rebound = () => {
             console.log('error signing out: ', error);
         }
     }
+
+    useEffect (() => {
+        
+        fetchData()
+        
+        //if(leaders.length == 0) {
+        //etLeaders(assist)
+        //}
+        console.log(leaders)
+    },[])
+
+    const fetchData = async () => {
+        const axios = require('axios');
+        const url = 'https://3yorx7mlme5jcqwtomjz5tiwyu0evrqb.lambda-url.us-east-1.on.aws/';
+        axios.get(url)
+            .then(function (response) {
+                setLeaders(response.data.resultSet.rowSet)
+            }
+            )
+            .catch(function (error) {
+                console.log(error);
+            }
+            );
+            
+    };
+
+
     return (
         <>
         <section className='hero'>
         <nav>
-                <div>
-                    <h2>Welcome</h2>
+        <div>
+                <h2>Rebound Leaders (avg per game)</h2>
                     <Button onClick = {(e)=>{signOut()}}>Logout</Button>
                 </div>
                 <div className = "leaders">
@@ -47,7 +76,50 @@ const Rebound = () => {
                 <Button onClick = {(e)=>{navigate('/rebound')}}>Rebound Leaders</Button>
                 </div>
             </nav>
-            </section>
+            <table class="table">
+                <thead>
+                    <tr>
+                    <th scope="col">Rank</th> 
+                    <th scope="col">Player</th>
+                    <th scope="col">Team</th>
+                    <th scope="col">GP</th>
+                    <th scope="col">REB</th>
+                    <th scope="col">AST</th>
+                    <th scope="col">PTS</th>
+                    <th scope="col">OREB</th>
+                    <th scope="col">DREB</th>
+                    <th scope="col">FG %</th>
+                    <th scope="col">FG3 %</th>
+                    <th scope="col">FT %</th>
+                    <th scope="col">STL</th>
+                    <th scope="col">BLK</th>
+                    <th scope="col">TOV</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {leaders.map((stat) => (
+                       <tr>
+                        <th>{stat[1]}</th>
+                        <td>{stat[2]}</td>
+                        <td>{stat[4]}</td>
+                        <td>{stat[5]}</td>
+                        <td>{stat[18]}</td>
+                        <td>{stat[19]}</td>
+                        <td>{stat[23]}</td>
+                        <td>{stat[16]}</td>
+                        <td>{stat[17]}</td>
+                        <td>{Math.round(stat[9] * 100)}</td>
+                        <td>{Math.round(stat[12] * 100)}</td>
+                        <td>{Math.round(stat[15] * 100)}</td>
+                        <td>{stat[20]}</td>
+                        <td>{stat[21]}</td>
+                        <td>{stat[22]}</td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
+        </section>
+        
         </>
     )
 }
