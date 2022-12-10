@@ -39,7 +39,7 @@ const [odds,setOdds] = useState([])
 const teams = ["Atlanta Hawks ",
         "Celtics", 
         "Nets",
-        "Bobcats",
+        "Pelicans",
         "Bulls",
         "Cavaliers",
         "Mavericks ",
