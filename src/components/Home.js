@@ -43,7 +43,7 @@ const teams = [
         "Hornets",
         "Bulls",
         "Cavaliers",
-        "Mavericks ",
+        "Mavericks",
         "Nuggets",
         "Pistons",
         "Warriors",
