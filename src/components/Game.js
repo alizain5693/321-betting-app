@@ -42,6 +42,9 @@ export default function Game(props){
                 <br></br>
                 <Heading as="h4" size="md" color="gray.900" _dark={{ color: "gray.100" }} align="center">{props.time}</Heading>
                 <br></br>
+                <Heading as="h4" size="md" color="red.500" _dark={{ color: "gray.100" }} align="center">({props.team1Odds}) - ({props.team2Odds})</Heading>
+                <br></br>
+                
                 <Button bg={'green.400'}
                   align="center"
                   color={'white'}

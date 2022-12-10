@@ -35,6 +35,62 @@ const Home = () => {
 //is user verified
 const [isVerified, setIsVerified] = useState(false);
 const [schedule,setSchedule] = useState([])
+const [odds,setOdds] = useState([])
+const teams = ["Atlanta Hawks ",
+        "Celtics", 
+        "Nets",
+        "Bobcats",
+        "Bulls",
+        "Cavaliers",
+        "Mavericks ",
+        "Nuggets",
+        "Pistons",
+        "Warriors",
+        "Rockets ",
+        "Pacers",
+        "Clippers",
+        "Lakers",
+        "Grizzlies",
+        "Heat", 
+        "Bucks",
+        "Timberwolves",
+        "Hornets", 
+        "Knicks", 
+        "Thunder",
+        "Magic", 
+        "76ers",
+        "Suns", 
+        "Trail Blazers",
+        "Kings",
+        "Spurs", 
+        "Raptors",
+        "Jazz",
+        "Wizards" 
+        ]
+function getHomeOdds(homeTeamName){
+    let i = 0;
+    while((teams[i]===(homeTeamName) != true)){
+        i++;
+        if(i >= 30){
+            return 'NA';
+        }
+    }
+    return odds[i].homeOdds;
+    
+}
+
+function getAwayOdds(homeTeamName){
+    let i = 0;
+    while((teams[i]===(homeTeamName) != true)){
+        i++;
+        if(i >= 30){
+            return 'NA';
+        }
+    }
+    return odds[i].awayOdds;
+    
+}
+
 let navigate = useNavigate();
 //Async function for user verification through jwt and cognito
 async function VerifyUser() {
@@ -157,8 +213,18 @@ async function signOut() {
         //get req this url using axios
         //url: https://x2xgysiaba64ej7uwyejehjtoq0gpzjz.lambda-url.us-east-1.on.aws/
         const axios = require('axios');
+        const odds_url = 'https://zn6we6hnfizjuer6td53ywvnqa0yfshq.lambda-url.us-east-1.on.aws/';
+            await axios.get(odds_url)
+            .then(function (response) {
+                setOdds(response.data.Items)
+            }
+            )
+            .catch(function (error) {
+                console.log(error);
+            }
+            );
         const url = 'https://x2xgysiaba64ej7uwyejehjtoq0gpzjz.lambda-url.us-east-1.on.aws/';
-        axios.get(url)
+        await axios.get(url)
             .then(function (response) {
                 setSchedule(response.data.scoreboard.games)
             }
@@ -168,6 +234,7 @@ async function signOut() {
             }
             );
             
+            
     };
 
     const testData = async () => {
@@ -175,6 +242,26 @@ async function signOut() {
         console.log(schedule)
         
     }
+
+   /* const fetchOdds = async () => {
+        const axios = require('axios');
+        const odds_url = 'https://zn6we6hnfizjuer6td53ywvnqa0yfshq.lambda-url.us-east-1.on.aws/';
+        await axios.get(odds_url)
+        .then(function (response) {
+            setOdds(response.data.Items)
+        }
+        )
+        .catch(function (error) {
+            console.log(error);
+        }
+        );
+
+    }
+
+    const testOdds = async() => {
+        setOdds(data.Items)
+        console.log(odds)
+    }*/
 
     return(
         <>
@@ -195,11 +282,14 @@ async function signOut() {
             </nav>
             <div >
             {
-                schedule.map((game)=>(
+                schedule.map((game)=>( 
                     <>
             <div>
-            <Game currgame = {game} time = {game.gameStatusText} team1 = {game.homeTeam} team2 = {game.awayTeam} teamName1 = {game.homeTeam.teamName} teamCity1 = {game.homeTeam.teamCity} team1score = {game.homeTeam.score} teamName2 = {game.awayTeam.teamName} teamCity2 = {game.awayTeam.teamCity} team2score = {game.awayTeam.score}/>
-
+            <Game currgame = {game} time = {game.gameStatusText} team1 = {game.homeTeam} team2 = {game.awayTeam} 
+            teamName1 = {game.homeTeam.teamName} teamCity1 = {game.homeTeam.teamCity} team1score = {game.homeTeam.score} 
+            teamName2 = {game.awayTeam.teamName} teamCity2 = {game.awayTeam.teamCity} team2score = {game.awayTeam.score}
+            team1Odds = {getHomeOdds(game.homeTeam.teamName)} team2Odds = {getAwayOdds(game.homeTeam.teamName)}/>
+        
             </div>
                         </>
                     ))
