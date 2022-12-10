@@ -58,7 +58,7 @@ const teams = ["Atlanta Hawks ",
         "Knicks", 
         "Thunder",
         "Magic", 
-        "Sixers",
+        "76ers",
         "Suns", 
         "Trail Blazers",
         "Kings",
@@ -71,6 +71,9 @@ function getHomeOdds(homeTeamName){
     let i = 0;
     while((teams[i]===(homeTeamName) != true)){
         i++;
+        if(i >= 30){
+            return 'NA';
+        }
     }
     return odds[i].homeOdds;
     
@@ -80,6 +83,9 @@ function getAwayOdds(homeTeamName){
     let i = 0;
     while((teams[i]===(homeTeamName) != true)){
         i++;
+        if(i >= 30){
+            return 'NA';
+        }
     }
     return odds[i].awayOdds;
     
