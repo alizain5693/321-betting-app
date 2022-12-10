@@ -36,10 +36,11 @@ const Home = () => {
 const [isVerified, setIsVerified] = useState(false);
 const [schedule,setSchedule] = useState([])
 const [odds,setOdds] = useState([])
-const teams = ["Atlanta Hawks ",
+const teams = [
+        "Hawks",
         "Celtics", 
         "Nets",
-        "Pelicans",
+        "Hornets",
         "Bulls",
         "Cavaliers",
         "Mavericks ",
@@ -54,7 +55,7 @@ const teams = ["Atlanta Hawks ",
         "Heat", 
         "Bucks",
         "Timberwolves",
-        "Hornets", 
+        "Pelicans", 
         "Knicks", 
         "Thunder",
         "Magic", 
